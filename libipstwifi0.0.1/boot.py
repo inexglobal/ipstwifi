@@ -31,11 +31,9 @@ while 1:
   w.servo(13,pos)
   w.servo(14,pos)
   w.servo(15,pos)
-  w.sled(0,(int(valKnob), 0, 0))
   w.led(w.sw1())
   if w.sw1()==0:
     w.sound(1000,0.1)
-  w.sled(2,(0, int(valKnob), 0))
 
 
 
