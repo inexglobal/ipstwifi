@@ -178,7 +178,6 @@ class IPSTW(SSD1306):
       pin = machine.Pin(port,machine.Pin.OUT)
       pin.value(1)
   def input(self,port):
-    #logics=(int(logic)).to_bytes(1,'little')
     if(port<8):
       reg = bytearray(2)
       reg[0]=0x08|port
