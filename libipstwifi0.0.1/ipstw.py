@@ -131,7 +131,7 @@ class IPSTW(SSD1306):
     self.np[0]= (0,0,0)
     self.np[1]= (0,0,0)
     self.np[2]= (0,0,0)
-    self.np.write()
+    #self.np.write()
     print('Run....')
   def motor(self,m,speed):
     sp=(int(speed)).to_bytes(1,'little')
