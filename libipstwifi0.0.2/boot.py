@@ -6,9 +6,6 @@ w=ipstw.IPSTW(i2c)
 w.begin()
 def map(value, istart, istop, ostart, ostop):
   return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
-while (72 not in i2c.scan()):
-  print('check iKB-1')
-  time.sleep(0.5)
 w.OK()
 while 1:
   val=w.analog(0)
@@ -28,6 +25,7 @@ while 1:
   w.text("val33=%d " % val33,0,(3*8)+1)
   w.text("val34=%d " % val34,0,(4*8)+1)
   w.text("val35=%d " % val35,0,(5*8)+1)
+  w.text("knob=%d " % valKnob,0,(6*8)+1)
   w.show()
   w.output(2,w.input(3))
   w.motor(1,data)
@@ -41,6 +39,10 @@ while 1:
   w.led(w.sw1())
   if w.sw1()==0:
     w.sound(1000,0.1)
+
+
+
+
 
 
 

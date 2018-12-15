@@ -1,4 +1,3 @@
-#V0.0.2
 from micropython import const
 from machine import ADC,Pin,I2C,PWM
 from time import sleep
@@ -116,6 +115,7 @@ class IPSTW(SSD1306):
     self.addr = addr
     self.temp = bytearray(2)
     self.i2c = i2c
+    self.con_ipstw = 0
     self.address = address
     self.np = neopixel.NeoPixel(Pin(12),255)
     self.Svn=ADC(Pin(36)) #SVP
@@ -126,15 +126,21 @@ class IPSTW(SSD1306):
   def map(self,value, istart, istop, ostart, ostop):
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
   def begin(self):
-    reg = bytearray(1)
-    reg[0]=0x00
-    self.i2c.writeto(self.address,reg)
+    if(72 in self.i2c.scan()):
+      self.con_ipstw=1
+    else:
+      self.con_ipstw=0
+    if self.con_ipstw==1:
+      reg = bytearray(1)
+      reg[0]=0x00
+      self.i2c.writeto(self.address,reg)
     self.np[0]= (0,0,0)
     self.np[1]= (0,0,0)
     self.np[2]= (0,0,0)
     #self.np.write()
     print('Run....')
   def motor(self,m,speed):
+    
     sp=(int(speed)).to_bytes(1,'little')
     reg=0x00
     if m==1: 
@@ -145,7 +151,8 @@ class IPSTW(SSD1306):
       reg=0x24
     elif m==4:
       reg=0x28
-    self.i2c.writeto_mem(self.address,reg,sp)
+    if self.con_ipstw==1:
+      self.i2c.writeto_mem(self.address,reg,sp)
   def servo(self,m,pos):
     pos=(int(pos)).to_bytes(1,'little')
     reg=0x40
@@ -161,36 +168,42 @@ class IPSTW(SSD1306):
       reg=reg|0x10
     elif m==15:
       reg=reg|0x20
-    self.i2c.writeto_mem(self.address,reg,pos)
+    if self.con_ipstw==1:
+      self.i2c.writeto_mem(self.address,reg,pos)
   def analog(self,port):
     if port<8:
-      reg=0x80|(port<<4)
-      data = self.i2c.readfrom_mem(self.address,reg, 2)
-      value = (data[0] << 8 | data[1]) & 0x3ff
-      return value
+      if self.con_ipstw==1:
+        reg=0x80|(port<<4)
+        data = self.i2c.readfrom_mem(self.address,reg, 2)
+        value = (data[0] << 8 | data[1]) & 0x3ff
+        return value
+      return -1
     else:
-      self.Svn=ADC(Pin(port))
-      self.Svn.atten(ADC.ATTN_11DB)
-      return self.Svn.read()
+      val=ADC(Pin(port))
+      val.atten(ADC.ATTN_11DB)
+      return val.read()
   def output(self,port,logic):
     if logic >1:
       logic=1
     logics=(int(logic)).to_bytes(1,'little')
     if port<8:
-      reg=0x08|port
-      self.i2c.writeto_mem(self.address,reg,logics)
+      if self.con_ipstw==1:
+        reg=0x08|port
+        self.i2c.writeto_mem(self.address,reg,logics)
     else:
       pin = Pin(port,Pin.OUT)
       pin.value(logic)
   def input(self,port):
     if(port<8):
-      reg = bytearray(2)
-      reg[0]=0x08|port
-      reg[1]=0x02
-      self.i2c.writeto(self.address,reg)
-      data = self.i2c.readfrom(self.address,1)
-      value =  data[0] & 0x01
-      return value
+      if self.con_ipstw==1:
+        reg = bytearray(2)
+        reg[0]=0x08|port
+        reg[1]=0x02
+        self.i2c.writeto(self.address,reg)
+        data = self.i2c.readfrom(self.address,1)
+        value =  data[0] & 0x01
+        return value
+      return -1
     else:
       val = Pin(port,Pin.IN)
       return val.value()
@@ -201,6 +214,10 @@ class IPSTW(SSD1306):
       self.fill(0)
       self.text("Press SW1",10,18)
       self.show()
+      sleep(0.3)
+      self.fill(0)
+      self.show()
+      sleep(0.3)
   def knob(self):
     return self.Svn.read()
   def knob(self,ostart,ostop):
@@ -250,6 +267,10 @@ class IPSTW(SSD1306):
     pass
     
   
+
+
+
+
 
 
 
