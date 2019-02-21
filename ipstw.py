@@ -118,7 +118,7 @@ class IPSTW(SSD1306):
     self.i2c = i2c
     self.con_ipstw = 0
     self.address = address
-    self.np = neopixel.NeoPixel(Pin(12),255)
+    self.np = neopixel.NeoPixel(Pin(12),255,timing=1)
     self.Svn=ADC(Pin(36)) #SVP
     self.Svn.atten(ADC.ATTN_11DB)
     self.valSW = Pin(5,Pin.IN,Pin.PULL_UP)
@@ -138,7 +138,7 @@ class IPSTW(SSD1306):
     self.np[0]= (0,0,0)
     self.np[1]= (0,0,0)
     self.np[2]= (0,0,0)
-    #self.np.write()
+    self.np.write()
     print('Run....')
   def motor(self,m,speed):
     
