@@ -4,6 +4,9 @@ import time
 i2c = I2C(scl=Pin(22), sda=Pin(21), freq=1000000)
 w=ipstw.IPSTW(i2c)
 w.begin()
+w.sled(0,(10,0,0)) 
+w.sled(1,(0,10,0))
+w.sled(2,(0,0,10))
 def map(value, istart, istop, ostart, ostop):
   return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
 w.OK()
@@ -36,7 +39,6 @@ while 1:
   w.servo(13,pos)
   w.servo(14,pos)
   w.servo(15,pos)
-  w.led(w.sw1())
   if w.sw1()==0:
     w.sound(1000,0.1)
 
