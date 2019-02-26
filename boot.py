@@ -1,46 +1,73 @@
 from machine import I2C,Pin
+import network
 import ipstw
 import time
 i2c = I2C(scl=Pin(22), sda=Pin(21), freq=1000000)
-w=ipstw.IPSTW(i2c)
+print (i2c.scan())
+
+wifi = network.WLAN(network.STA_IF)
+wifi.active(True)
+wifi = wifi.scan() 
+
+w=ipstw.IPSTW()
 w.begin()
-w.sled(0,(10,0,0)) 
+
+w.fill(0)
+w.text("WiFi=%d " % len(wifi),0,0*8)
+w.show()
+
+if(len(wifi)>3):
+  w.sound(1000,0.1)
+  w.sound(1000,0.1)
+  w.sled(0,(10,0,0))
+  w.sled(1,(0,10,0))
+  w.sled(2,(0,0,10))
+  time.sleep(0.5)
+else:
+  w.sound(1000,1)
+  
+w.sled(0,(10,0,0))
 w.sled(1,(0,10,0))
 w.sled(2,(0,0,10))
+
 def map(value, istart, istop, ostart, ostop):
   return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
-w.OK()
+#w.OK()
 while 1:
-  val=w.analog(0)
-  An7=w.analog(7)
-  val32=w.analog(32)
-  val33=w.analog(33)
-  val34=w.analog(34)
-  val35=w.analog(35)
-  valKnob=w.knob(0,255)
-  data=map(val,0,1023,-100,100)
-  nondata=map(val,0,1023,100,-100)
-  pos=map(An7,0,1023,0,180)
-  w.fill(0)
-  w.text("adc0=%d " % data,0,0*8)
-  w.text("pos=%d " % pos,0,(1*8)+1)
-  w.text("val32=%d " % val32,0,(2*8)+1)
-  w.text("val33=%d " % val33,0,(3*8)+1)
-  w.text("val34=%d " % val34,0,(4*8)+1)
-  w.text("val35=%d " % val35,0,(5*8)+1)
-  w.text("knob=%d " % valKnob,0,(6*8)+1)
-  w.show()
-  w.output(2,w.input(3))
-  w.motor(1,data)
-  w.motor(2,nondata) 
-  w.servo(10,pos)
-  w.servo(11,pos)
-  w.servo(12,pos)
-  w.servo(13,pos)
-  w.servo(14,pos)
-  w.servo(15,pos)
+  valKnob=int(w.knob(0,255))
+  w.led(w.sw1())
   if w.sw1()==0:
     w.sound(1000,0.1)
+  if w.input(34):
+    w.sound(1000,0.1)
+  if not(w.input(35)):
+    w.sound(1000,0.1)
+  if not(w.input(33)):
+    w.sound(1000,0.1)
+  if not(w.input(32)):
+    w.sound(1000,0.1)
+  if not(w.input(26)):
+    w.sound(1000,0.1)
+  if not(w.input(5)):
+    w.sound(1000,0.1)
+  if not(w.input(19)):
+    w.sound(1000,0.1)
+  if not(w.input(23)):
+    w.sound(1000,0.1)
+  w.fill(0)
+  w.text("KNOB=%d " % w.knob(),0,0*8)
+  w.text("IO34=%d " % w.input(34),0,(1*8)+1)
+  w.text("IO35=%d " % w.input(35),0,(2*8)+1)
+  w.text("IO33=%d " % w.input(33),0,(3*8)+1)
+  w.text("IO32=%d " % w.input(32),0,(4*8)+1)
+  w.text("IO26=%d " % w.input(26),0,(5*8)+1)
+  w.text("IO 5=%d " % w.input(5),0,(6*8)+1)
+  w.text("IO19=%d " % w.input(19),0,(7*8)+1)
+  w.text("IO23=%d " % w.input(23),60,(7*8)+1)
+  w.show()
+  w.sled(0,(valKnob,valKnob,valKnob))
+  w.sled(1,(valKnob,valKnob,valKnob))
+  w.sled(2,(valKnob,valKnob,valKnob))
 
 
 
