@@ -167,8 +167,8 @@ class IPSTW(SSD1306):
     self.led.value(st)
   def sound(self,freq,time):
     #global buzzer
-    if freq>=1000:
-      freq=1000
+    if freq>=3000:
+      freq=3000
     elif freq < 0:
       freq=0
     buzzer = PWM(Pin(25))
