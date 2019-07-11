@@ -1,3 +1,4 @@
+
 from micropython import const
 from machine import ADC,Pin,I2C,PWM
 from time import sleep
@@ -122,6 +123,11 @@ class IPSTW(SSD1306):
     self.Svn.atten(ADC.ATTN_11DB)
     self.valSW = Pin(0,Pin.IN,Pin.PULL_UP)
     self.led=Pin(18,Pin.OUT)
+    self.np[0]= (0,0,0)
+    self.np[1]= (0,0,0)
+    self.np[2]= (0,0,0)
+    self.np.write()
+    print('IPSTW...Run')
     super().__init__(width, height, external_vcc)
   def map(self,value, istart, istop, ostart, ostop):
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
@@ -130,7 +136,7 @@ class IPSTW(SSD1306):
     self.np[1]= (0,0,0)
     self.np[2]= (0,0,0)
     self.np.write()
-    print('Run....')
+    print('IPSTW...Run')
   def analog(self,port):
     val=ADC(Pin(port))
     val.atten(ADC.ATTN_11DB)
@@ -185,6 +191,7 @@ class IPSTW(SSD1306):
   def write_data(self, buf):
     self.temp[0] = self.addr << 1
     self.temp[1] = 0x40 # Co=0, D/C#=1
+
     global currentBoard
     if currentBoard=="esp8266" or currentBoard=="esp32":
       self.i2c.start()
@@ -199,6 +206,8 @@ class IPSTW(SSD1306):
     pass
     
   
+
+
 
 
 
