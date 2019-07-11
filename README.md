@@ -1,1 +1,1 @@
-# MicroPython IPSTWiFi
+# MicroPython IPST-WiFi
