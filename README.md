@@ -12,6 +12,9 @@
   import ipstw  
   w=ipstw.IPSTW()
   w.begin() 
+  หรือ
+  import ipstw  
+  w=ipstw.IPSTW()
   ```
 ### ตัวอย่าง คำสั่ง OK() 
  ```blocks
