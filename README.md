@@ -3,7 +3,7 @@
 # โปรแกรม
    IDE : uPycraft <br>
       https://github.com/DFRobot/uPyCraft <br>
-   Firmware : McroPython v1.10 on 2019-01-25; ESP32 module with ESP32 <br>
+   Firmware : McroPython v1.xx ESP32 module with ESP32 <br>
       http://micropython.org/download <br>
       
   ![](images/ipstwifi.jpg)  
