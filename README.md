@@ -1,5 +1,5 @@
 # MicroPython IPST-WiFi
-  ใช้สำหรับภาษา microPython ประกอบด้วย ipst-WiFi <br>
+  ใช้สำหรับภาษา microPython<br>
 # โปรแกรม
    IDE : uPycraft <br>
       https://github.com/DFRobot/uPyCraft <br>
