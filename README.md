@@ -9,12 +9,14 @@
   ![](images/ipstwifi.jpg)  
   ### เริ่มต้น
   ```blocks
-  import ipstw  
-  w=ipstw.IPSTW()
-  w.begin() 
-  หรือ
-  import ipstw  
-  w=ipstw.IPSTW()
+      import ipstw  
+      w=ipstw.IPSTW()
+      w.begin() 
+  ```
+  * หรือ
+  ```blocks
+      import ipstw  
+      w=ipstw.IPSTW()
   ```
 ### ตัวอย่าง คำสั่ง OK() 
  ```blocks
