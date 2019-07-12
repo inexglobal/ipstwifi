@@ -1,6 +1,6 @@
 # MicroPython IPST-WiFi
   ใช้สำหรับภาษา microPython ประกอบด้วย ipst-WiFi <br>
-  ![](images/irover.jpg)  
+  ![](images/ipstwifi.jpg)  
   ### เริ่มต้น
   ```blocks
   import ipstw  
