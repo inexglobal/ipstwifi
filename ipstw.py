@@ -1,6 +1,5 @@
-
 from micropython import const
-from machine import ADC,Pin,I2C,PWM
+from machine import ADC,Pin,SoftI2C,PWM
 from time import sleep
 import neopixel
 import sys
@@ -112,7 +111,7 @@ class SSD1306:
     self.framebuf.blit(fbuf, x, y)
     
 class IPSTW(SSD1306):
-  def __init__(self,i2c=I2C(scl=Pin(22), sda=Pin(21), freq=1000000),address = const(0x48),width=128, height=64,addr=0x3c, external_vcc=False):
+  def __init__(self,i2c=SoftI2C(scl=Pin(22), sda=Pin(21), freq=1000000),address = const(0x48),width=128, height=64,addr=0x3c, external_vcc=False):
     self.addr = addr
     self.temp = bytearray(2)
     self.i2c = i2c
@@ -204,19 +203,3 @@ class IPSTW(SSD1306):
       self.i2c.mem_write(buf,self.addr,0x40)
   def poweron(self):
     pass
-    
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
