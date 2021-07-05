@@ -140,6 +140,13 @@ class IPSTW(SSD1306):
     val=ADC(Pin(port))
     val.atten(ADC.ATTN_11DB)
     return val.read()
+  def pwm(self,port,duty):
+      pwmpin =PWM(Pin(port))
+      pwmpin.freq(500)
+      pwmpin.duty(duty)
+  def exti(self,port,irq_request):
+      btn=Pin(port,Pin.IN,PULL_UP)
+      btn.irq(trigger=PinIRQ_FALLING,handler=irq_request)
   def output(self,port,logic):
       pin = Pin(port,Pin.OUT)
       pin.value(logic)
