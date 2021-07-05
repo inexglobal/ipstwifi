@@ -1,8 +1,8 @@
-from machine import I2C,Pin
+from machine import SoftI2C,Pin
 import network
 import ipstw
 import time
-i2c = I2C(scl=Pin(22), sda=Pin(21), freq=1000000)
+i2c = SoftI2C(scl=Pin(22), sda=Pin(21), freq=1000000)
 print (i2c.scan())
 
 wifi = network.WLAN(network.STA_IF)
@@ -68,26 +68,3 @@ while 1:
   w.sled(0,(valKnob,valKnob,valKnob))
   w.sled(1,(valKnob,valKnob,valKnob))
   w.sled(2,(valKnob,valKnob,valKnob))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
