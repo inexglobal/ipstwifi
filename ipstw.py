@@ -145,8 +145,8 @@ class IPSTW(SSD1306):
       pwmpin.freq(500)
       pwmpin.duty(duty)
   def exti(self,port,irq_request):
-      btn=Pin(port,Pin.IN,PULL_UP)
-      btn.irq(trigger=PinIRQ_FALLING,handler=irq_request)
+      btn=Pin(port,Pin.IN,Pin.PULL_UP)
+      btn.irq(trigger=Pin.IRQ_FALLING,handler=irq_request)
   def output(self,port,logic):
       pin = Pin(port,Pin.OUT)
       pin.value(logic)
